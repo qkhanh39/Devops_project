@@ -10,14 +10,14 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-@views.route('/')
+@views.route('/<username>')
 @login_required
-def home():
+def home(username):
     return render_template("home.html", user=current_user)
 
-@views.route('/', methods=['POST'])
+@views.route('/<username>', methods=['POST'])
 @login_required
-def upload_image():
+def upload_image(username):
     if 'file' not in request.files:
         flash('No file part', category='error')
         return redirect(request.url)
@@ -27,10 +27,11 @@ def upload_image():
         return redirect(request.url)
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
-        file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+        file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], username, filename)
+        os.makedirs(os.path.dirname(file_path), exist_ok=True)
+        file.save(file_path)
         flash('File uploaded successfully', category = 'success')
         return render_template("home.html", user=current_user, filename=filename)
     else:
         flash('Allowed file types are png, jpg, jpeg', category='error')
         return redirect(request.url)
-
