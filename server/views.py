@@ -3,8 +3,7 @@ from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
 import os
 import urllib.request
-
-from model import Pyx, Pal
+from server.model import Pyx, Pal
 from skimage import io
 
 views = Blueprint('views', __name__, template_folder='../client/templates')
@@ -42,12 +41,14 @@ def upload_image(username):
     else:
         flash('Allowed file types are png, jpg, jpeg', category='error')
         return redirect(request.url)
-def run_transfer(image_path):
-    image = io.imread(image_path)
-    downsample_by = 14
-    palette = 8
-    pyx = Pyx(factor=downsample_by, palette=palette)
-    pyx.fit(image)
-    new_image = pyx.transform(image)
-    SAVE_PATH = "./static/transferImages/"
-    io.imsave(SAVE_PATH + "output.png", new_image)
+    
+
+# def run_transfer(image_path):
+#     image = io.imread(image_path)
+#     downsample_by = 14
+#     palette = 8
+#     pyx = Pyx(factor=downsample_by, palette=palette)
+#     pyx.fit(image)
+#     new_image = pyx.transform(image)
+#     SAVE_PATH = "./static/transferImages/"
+#     io.imsave(SAVE_PATH + "output.png", new_image)
