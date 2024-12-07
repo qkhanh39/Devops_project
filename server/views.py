@@ -4,7 +4,7 @@ from werkzeug.utils import secure_filename
 import os
 import urllib.request
 
-from model import Pyx, Pal
+from .model import Pyx, Pal
 from skimage import io
 
 views = Blueprint('views', __name__, template_folder='../client/templates')
