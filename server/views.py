@@ -3,7 +3,7 @@ from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
 import os
 import urllib.request
-views = Blueprint('views', __name__)
+views = Blueprint('views', __name__, template_folder='../client/templates')
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 

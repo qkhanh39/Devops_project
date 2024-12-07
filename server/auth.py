@@ -1,10 +1,10 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
-from client.database import User
+from server.database import User
 from werkzeug.security import generate_password_hash, check_password_hash
-from . import db
+from server import db
 from flask_login import login_user, login_required, logout_user, current_user, LoginManager
 
-auth = Blueprint('auth', __name__)
+auth = Blueprint('auth', __name__, template_folder='../client/templates')
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():

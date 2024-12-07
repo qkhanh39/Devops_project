@@ -5,7 +5,7 @@ from flask_login import LoginManager
 
 db = SQLAlchemy()
 DB_NAME = "database.db"
-UPLOAD_FOLDER = 'client/static/uploads/'
+UPLOAD_FOLDER = 'server/static/uploads/'
 
 def create_app():
     app = Flask(__name__)
@@ -15,12 +15,12 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     db.init_app(app)
 
-    from client.auth import auth
-    from client.views import views
+    from server.auth import auth
+    from server.views import views
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
 
-    import client.database
+    import server.database
     create_database(app)
 
 
@@ -30,7 +30,7 @@ def create_app():
 
     @login_manager.user_loader
     def load_user(id):
-        return client.database.User.query.get(int(id))
+        return server.database.User.query.get(int(id))
 
     return app
 
