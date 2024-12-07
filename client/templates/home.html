@@ -4,7 +4,7 @@
  <h1 align="center">Generate pixel image</h1>
  <div class = "container">
     <div class = "row">
-        <form method="post" action="{{ url_for('views.upload_image', username=user.username) }}" enctype="multipart/form-data">
+        <form method="post" action="{{ url_for('views.home', username=user.username) }}" enctype="multipart/form-data">
             <dl>
                 <p>
                     <input type="file" name="file" id="file" class="form-control" autocomplete="off" required>

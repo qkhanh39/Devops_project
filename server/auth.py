@@ -20,7 +20,7 @@ def login():
             else:
                 flash('Incorrect password, try again.', category='error')
         else:
-            flash('Email does not exist.', category='error')
+            flash('Username does not exist.', category='error')
     return render_template("login.html", user=current_user)
 
 @auth.route('/logout')
@@ -39,9 +39,9 @@ def sign_up():
         
         user = User.query.filter_by(username=username).first()
         if user:
-            flash('Email already exists.', category='error')
+            flash('Username already exists.', category='error')
         elif len(username) < 1:
-            flash('Email must not be empty.', category='error')
+            flash('Username must not be empty.', category='error')
         elif len(firstName) < 1:
             flash('First name must not be empty.', category='error')
         elif len(password) < 1:
