@@ -13,5 +13,138 @@
             <button type="submit" class="btn btn-primary">Generate</button>
         </form>
     </div>
- </div>
+    {% if filename %}
+    <div class="row mt-4">
+        <!-- Uploaded Image -->
+        <div class="col-5">
+            <div class="image-container">
+                <h2 class="image-title">Uploaded Image:</h2>
+                <img src="{{ url_for('static', filename=filename) }}" alt="Uploaded Image" class="img-fluid">
+            </div>
+        </div>
+        <!-- Arrow with animation -->
+        <div class="col-2 d-flex justify-content-center align-items-center">
+            <span class="arrow" id="arrow">→</span>
+        </div>
+        <!-- Output Image -->
+        <div class="col-5">
+            <div class="image-container" id="output-container" style="display: none;">
+                <h2 class="image-title">Output Image:</h2>
+                <img id="output-image" src="{{ url_for('static', filename='transferImages/output.png') }}" alt="Output Image" class="img-fluid">
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+ <style>
+    .image-container {
+        position: relative;       /* Để định vị các phần tử bên trong */
+        display: flex;            /* Căn giữa nội dung */
+        justify-content: center;  /* Căn giữa theo chiều ngang */
+        align-items: center;      /* Căn giữa theo chiều dọc */
+        margin-top: 10px;         /* Khoảng cách trên */
+        border: 2px solid #007bff; /* Tạo viền màu xanh */
+        border-radius: 8px;       /* Bo góc viền */
+        padding: 10px;            /* Không gian giữa ảnh và viền */
+        background-color: #f8f9fa; /* Màu nền nhạt */
+        max-width: 100%;
+    }
+
+    .image-title {
+        position: absolute;       /* Vị trí tuyệt đối để nằm trên ảnh */
+        top: 10px;                /* Cách phía trên một khoảng */
+        left: 50%;                /* Căn giữa theo chiều ngang */
+        transform: translateX(-50%); /* Điều chỉnh để căn giữa chính xác */
+        background-color: rgba(255, 255, 255, 0.8); /* Nền trắng mờ */
+        padding: 5px 10px;        /* Tạo padding xung quanh text */
+        border-radius: 5px;       /* Bo góc của nền */
+        font-size: 16px;          /* Kích thước font chữ */
+        font-weight: bold;        /* Làm đậm chữ */
+        color: #007bff;           /* Màu chữ */
+        z-index: 10;              /* Đảm bảo text hiển thị phía trên ảnh */
+    }
+
+    .image-container img {
+        max-width: 100%;          /* Đảm bảo ảnh không vượt ra ngoài khung */
+        height: auto;             /* Giữ tỷ lệ ảnh */
+        display: block;           /* Xóa khoảng trống phía dưới ảnh */
+    }
+
+    .arrow {
+    font-size: 5rem;                  /* Kích thước mũi tên */
+    color: #007bff;                   /* Màu mũi tên */
+    font-weight: bold;                /* Làm đậm mũi tên */
+    animation: move-arrow 1.5s linear infinite; /* Hiệu ứng chuyển động lặp vô hạn */
+}
+
+    @keyframes move-arrow {
+        0% {
+            transform: translateX(0);     /* Bắt đầu ở vị trí ban đầu */
+        }
+        100% {
+            transform: translateX(20px); /* Di chuyển sang phải 20px */
+        }
+    }
+
+    #output-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        animation: fade-in 1s ease-in;   /* Hiệu ứng mờ dần khi hiện khung ảnh */
+    }
+
+    @keyframes fade-in {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+ </style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const outputContainer = document.getElementById('output-container');
+        const arrow = document.getElementById('arrow');
+        const outputImage = document.getElementById('output-image');
+
+        function checkImage() {
+            const timestamp = new Date().getTime(); // Tạo timestamp để làm mới URL
+            const url =  outputImage.src.split('?')[0] + `?t=${timestamp}`;
+            // Loại bỏ query string cũ và thêm mới ${'outputImage.src.split('?')[0]}?t=${timestamp};
+
+            fetch(url, { method: 'HEAD' }) // Kiểm tra ảnh trên server
+                .then(response => {
+                    if (response.ok) {
+                        outputContainer.style.display = 'flex'; // Hiển thị ảnh
+                        outputContainer.style.justifyContent = 'center'; // Căn giữa ảnh
+                        outputContainer.style.alignItems = 'center'; // Căn giữa ảnh
+                        outputImage.src = url; // Cập nhật URL ảnh để tải ảnh mới
+                        arrow.style.animation = 'none'; // Dừng mũi tên
+                    } else {
+                        setTimeout(checkImage, 1000); // Nếu ảnh chưa có, kiểm tra lại sau 1 giây
+                    }
+                })
+                .catch(() => {
+                    setTimeout(checkImage, 1000); // Nếu lỗi, thử lại sau 1 giây
+                });
+        }
+        // function checkImage() {
+        //     const timestamp = new Date().getTime(); // Tạo timestamp để làm mới URL
+        //     const url =  outputImage.src.split('?')[0] + `?t=${timestamp}`;
+
+        //     setTimeout(() => {
+        //         // Hiển thị ảnh sau 2 giây
+        //         outputContainer.style.display = 'flex'; // Hiển thị ảnh
+        //         outputContainer.style.justifyContent = 'center'; // Căn giữa ảnh
+        //         outputContainer.style.alignItems = 'center'; // Căn giữa ảnh
+        //         outputImage.src = url; // Cập nhật URL ảnh để tải ảnh mới
+        //         arrow.style.animation = 'none'; // Dừng mũi tên
+        //     }, 2000); // 2 giây (2000 ms)
+        // }
+        checkImage(); // Bắt đầu kiểm tra ảnh
+    });
+</script>
 {%endblock%}
