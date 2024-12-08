@@ -9,19 +9,18 @@ auth = Blueprint('auth', __name__, template_folder='../client/templates')
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        email = request.form.get('email')
+        username = request.form.get('username')
         password = request.form.get('password')
-
-        user = User.query.filter_by(email=email).first()
+        user = User.query.filter_by(username=username).first()
         if user:
             if check_password_hash(user.password, password):
                 flash('Logged in successfully!', category='success')
                 login_user(user, remember=True)
-                return redirect(url_for('views.home'))
+                return redirect(url_for('views.home', username=user.username))
             else:
                 flash('Incorrect password, try again.', category='error')
         else:
-            flash('Email does not exist.', category='error')
+            flash('Username does not exist.', category='error')
     return render_template("login.html", user=current_user)
 
 @auth.route('/logout')
@@ -33,16 +32,16 @@ def logout():
 @auth.route('/sign-up', methods=['GET', 'POST'])
 def sign_up():
     if request.method == 'POST':
-        email = request.form.get('email')
+        username = request.form.get('username')
         firstName = request.form.get('firstName')
         password = request.form.get('password')
         rewritePassword = request.form.get('passwordRewrite')
         
-        user = User.query.filter_by(email=email).first()
+        user = User.query.filter_by(username=username).first()
         if user:
-            flash('Email already exists.', category='error')
-        elif len(email) < 1:
-            flash('Email must not be empty.', category='error')
+            flash('Username already exists.', category='error')
+        elif len(username) < 1:
+            flash('Username must not be empty.', category='error')
         elif len(firstName) < 1:
             flash('First name must not be empty.', category='error')
         elif len(password) < 1:
@@ -50,7 +49,7 @@ def sign_up():
         elif password != rewritePassword:
             flash('Passwords do not match.', category='error')
         else:
-            new_user = User(email=email, password=generate_password_hash(password, method='pbkdf2:sha256'), first_name=firstName)
+            new_user = User(username=username, password=generate_password_hash(password, method='pbkdf2:sha256'), first_name=firstName)
             db.session.add(new_user)
             db.session.commit()
             flash('Account created!', category='success')
