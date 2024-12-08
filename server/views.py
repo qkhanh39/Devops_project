@@ -5,8 +5,9 @@ from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
 import os
 import urllib.request
-#
-from server.model import Pyx, Pal
+
+from .model import Pyx, Pal
+
 from skimage import io
 from PIL import Image
 
