@@ -4,7 +4,7 @@
  <h1 align="center">Generate pixel image</h1>
  <div class = "container">
     <div class = "row">
-        <form method="post" action="{{ url_for('views.home', username=user.username) }}" enctype="multipart/form-data">
+        <form method="post" action="{{ url_for('views.home', username=user.username) }}" method="POST" enctype="multipart/form-data">
             <dl>
                 <p>
                     <input type="file" name="file" id="file" class="form-control" autocomplete="off" required>
@@ -30,7 +30,14 @@
         <div class="col-5">
             <div class="image-container" id="output-container" style="display: none;">
                 <h2 class="image-title">Output Image:</h2>
-                <img id="output-image" src="{{ url_for('static', filename='transferImages/output.png') }}" alt="Output Image" class="img-fluid">
+                <img id="output-image"
+                     width="{{width}}px"
+                     height="{{height}}px"
+                     src="{{ url_for('static', filename=output) }}" 
+                     alt="Output Image"
+                     class="img-fluid"
+                     style="image-rendering: pixelated"
+                     >
             </div>
         </div>
     </div>

@@ -6,11 +6,13 @@ from flask_login import LoginManager
 db = SQLAlchemy()
 DB_NAME = "database.db"
 UPLOAD_FOLDER = 'server/static/uploads/'
+OUTPUT_FOLDER = 'server/static/transferImages/'
 
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'secret-key'
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+    app.config['OUTPUT_FOLDER'] = OUTPUT_FOLDER
     app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     db.init_app(app)
