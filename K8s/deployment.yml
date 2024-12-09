@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devops
+  labels:
+    app: image-pixel
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: image-pixel
+  template:
+    metadata:
+      labels:
+        app: image-pixel
+    spec:
+      terminationGracePeriodSeconds: 30
+      containers:
+      - name: image-pixel
+        image: qkhanh09/pixel-image:latest  
+        imagePullPolicy: "Always"
+        ports:
+        - containerPort: 8080
