@@ -30,6 +30,7 @@ def create_app():
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
 
+
     import server.database
 
     @login_manager.user_loader
