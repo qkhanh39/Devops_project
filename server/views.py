@@ -13,6 +13,7 @@ from PIL import Image
 from .database import Images
 from . import db
 
+
 views = Blueprint('views', __name__, template_folder='../client/templates')
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
