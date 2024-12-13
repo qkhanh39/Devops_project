@@ -4,7 +4,6 @@ from os import path
 from flask_login import LoginManager
 
 db = SQLAlchemy()
-DB_NAME = "database.db"
 UPLOAD_FOLDER = 'server/static/uploads/'
 OUTPUT_FOLDER = 'server/static/transferImages/'
 
@@ -14,7 +13,8 @@ def create_app():
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
     app.config['OUTPUT_FOLDER'] = OUTPUT_FOLDER
     app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
-    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
+    app.config['SQLALCHEMY_DATABASE_URI'] = app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:123456@app_data:3306/FLASK_app'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)
 
     from server.auth import auth
@@ -23,7 +23,8 @@ def create_app():
     app.register_blueprint(auth, url_prefix='/')
 
     import server.database
-    create_database(app)
+    with app.app_context():
+        db.create_all()
 
 
     login_manager = LoginManager()
@@ -36,9 +37,3 @@ def create_app():
 
     return app
 
-
-def create_database(app):
-    with app.app_context():
-        if not path.exists('server/' + DB_NAME):
-            db.create_all()
-            print('Created Database!')
