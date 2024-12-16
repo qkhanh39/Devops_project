@@ -34,23 +34,23 @@ def logout():
 def sign_up():
     if request.method == 'POST':
         username = request.form.get('username')
-        firstName = request.form.get('firstName')
+        firstname = request.form.get('firstName')
         password = request.form.get('password')
-        rewritePassword = request.form.get('passwordRewrite')
+        rewritepassword = request.form.get('passwordRewrite')
         
         user = User.query.filter_by(username=username).first()
         if user:
             flash('Username already exists.', category='error')
         elif len(username) < 1:
             flash('Username must not be empty.', category='error')
-        elif len(firstName) < 1:
+        elif len(firstname) < 1:
             flash('First name must not be empty.', category='error')
         elif len(password) < 1:
             flash('Password must not be empty.', category='error')
-        elif password != rewritePassword:
+        elif password != rewritepassword:
             flash('Passwords do not match.', category='error')
         else:
-            new_user = User(username=username, password=generate_password_hash(password, method='pbkdf2:sha256'), first_name=firstName)
+            new_user = User(username=username, password=generate_password_hash(password, method='pbkdf2:sha256'), first_name=firstname)
             db.session.add(new_user)
             db.session.commit()
             flash('Account created!', category='success')
