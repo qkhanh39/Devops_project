@@ -4,7 +4,6 @@ from os import path
 from flask_login import LoginManager
 import os
 
-
 db = SQLAlchemy()
 UPLOAD_FOLDER = 'server/static/uploads/'
 OUTPUT_FOLDER = 'server/static/transferImages/'
