@@ -13,6 +13,9 @@ def create_app():
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
     app.config['OUTPUT_FOLDER'] = OUTPUT_FOLDER
     app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+    print('--------------------------------------------------')
+    print(os.environ.get('MYSQL_ROOT_PASSWORD'))
+    print('--------------------------------------------------')
     app.config['SQLALCHEMY_DATABASE_URI'] = app.config['SQLALCHEMY_DATABASE_URI'] =  f"mysql+pymysql://root:{os.environ.get('MYSQL_ROOT_PASSWORD')}@mysql:3306/{os.environ.get('MYSQL_DATABASE')}"
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)
