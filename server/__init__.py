@@ -15,6 +15,7 @@ def create_app():
     app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
     print('--------------------------------------------------')
     print(os.environ.get('MYSQL_ROOT_PASSWORD'))
+    print(os.environ.get('MYSQL_DATABASE'))
     print('--------------------------------------------------')
     app.config['SQLALCHEMY_DATABASE_URI'] = app.config['SQLALCHEMY_DATABASE_URI'] =  f"mysql+pymysql://root:{os.environ.get('MYSQL_ROOT_PASSWORD')}@mysql:3306/{os.environ.get('MYSQL_DATABASE')}"
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
