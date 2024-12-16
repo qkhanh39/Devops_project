@@ -19,9 +19,9 @@ spec:
           image: mysql:8.0
           env:
             - name: MYSQL_ROOT_PASSWORD
-              value: '123456'
+              value: "${DB_ROOT_PASSWORD}"
             - name: MYSQL_DATABASE
-              value: FLASK_app
+              value: "${DB_NAME}"
           ports:
             - containerPort: 3306
           volumeMounts:
