@@ -1,10 +1,10 @@
 # Devops_project
 
 * Contents:
-    *[Introduction](#introduction)
-    *[Tech stack](#techstack)
-    *[CI/CD workflow summary](#workflow)
-    *[Setup instructions](#setup)
+    * [Introduction](#introduction)
+    * [Tech stack](#techstack)
+    * [CI/CD workflow summary](#workflow)
+    * [Setup instructions](#setup)
 
 
 ## Introduction
