@@ -2,4 +2,8 @@ __pycache__
 *.db
 uploads/
 transferImages/
-
+Jenkins-SonarQube-VM/.terraform
+Jenkins-SonarQube-VM/.terraform.lock.hcl
+Jenkins-SonarQube-VM/my_key_pair.pem
+Jenkins-SonarQube-VM/my_key_pair.pem.pub
+Jenkins-SonarQube-VM/terraform.tfstate.backup
