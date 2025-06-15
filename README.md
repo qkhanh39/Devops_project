@@ -137,6 +137,5 @@ The pipeline automates key stages such as code testing, quality analysis, securi
     ```bash 
     kubectl get svc
 - Copy the External-IP of our app and access it via browser.
-
 ## Demo
-[Watch the demo on Google Drive](https://drive.google.com/drive/folders/16Jsu2winD1ERzgH8HBObsNgSVQ7pJJPj)
+[Watch the demo on Google Drive](https://drive.google.com/file/d/1B2w5OM01WinL2lyND0XpwCbVKRKN4w0u/view?usp=sharing)
